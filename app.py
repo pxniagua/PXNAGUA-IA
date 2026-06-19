@@ -216,36 +216,6 @@ button {{
     margin-bottom:10px;
 }}
 
-.corazon-izq {{
-    position:fixed;
-    left:0;
-    top:50%;
-    transform:translateY(-50%);
-    width:350px;
-    z-index:-1;
-    pointer-events:none;
-}}
-
-.corazon-der {{
-    position:fixed;
-    right:0;
-    top:50%;
-    transform:translateY(-50%);
-    width:350px;
-    z-index:-1;
-    pointer-events:none;
-}}
-
-@media (max-width:768px) {{
-
-    .corazon-izq,
-    .corazon-der {{
-        width:150px;
-    }}
-
-    form {{
-        flex-direction:column;
-    }}
 
 }}
 
@@ -260,9 +230,6 @@ button {{
 </div>
 
 <h1>PXNAGUA'S IA WEB</h1>
-
-<img src="/static/corazones.png" class="corazon-izq">
-<img src="/static/corazones.png" class="corazon-der">
 
 <div class="chat">
 
@@ -294,4 +261,3 @@ import os
 if **name** == "**main**":
 port = int(os.environ.get("PORT", 5000))
 app.run(host="0.0.0.0", port=port)
-
