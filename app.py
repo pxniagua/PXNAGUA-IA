@@ -1,60 +1,74 @@
-from flask import Flask, request
+from flask import Flask, request, session
 
-app = Flask(__name__)
-
-chat = []
+app = Flask(**name**)
+app.secret_key = "PXNAGUA_SECRET_2026"
 
 @app.route("/", methods=["GET", "POST"])
 def inicio():
 
-    if request.method == "POST":
+```
+if "chat" not in session:
+    session["chat"] = []
 
-        mensaje = request.form.get("mensaje", "")
-        texto = mensaje.lower()
+if request.method == "POST":
 
-        respuesta = "No entendí muy bien eso."
+    mensaje = request.form.get("mensaje", "")
+    texto = mensaje.lower()
 
-        if "hola" in texto:
-            respuesta = "Hola, ¿cómo estás?"
+    respuesta = "No entendí muy bien eso."
 
-        elif "quien eres" in texto:
-            respuesta = "Soy PXNAGUA'S IA."
+    if "hola" in texto:
+        respuesta = "Hola, ¿cómo estás?"
 
-        elif "como estas" in texto:
-            respuesta = "Estoy excelente y lista para ayudarte."
+    elif "quien eres" in texto:
+        respuesta = "Soy PXNAGUA'S IA."
 
-        elif "motivame" in texto:
-            respuesta = "Nunca es tarde para aprender algo nuevo."
+    elif "como estas" in texto:
+        respuesta = "Estoy excelente y lista para ayudarte."
 
-        elif "taller matematicas" in texto:
-            respuesta = """
+    elif "motivame" in texto:
+        respuesta = "Nunca es tarde para aprender algo nuevo."
+
+    elif "taller matematicas" in texto:
+        respuesta = """
+```
+
 TALLER DE MATEMATICAS
 
 1. Resolver 5x + 10 = 35
 2. Resolver 8 x 7
 3. Hallar el área de un rectángulo de 8 x 5
-"""
+   """
 
-        elif "taller ingles" in texto:
-            respuesta = """
+   ```
+    elif "taller ingles" in texto:
+        respuesta = """
+   ```
+
 TALLER DE INGLES
 
 1. Traduce: Hola, ¿cómo estás?
 2. Escribe 5 verbos en inglés.
 3. Crea 3 oraciones en inglés.
-"""
+   """
 
-        elif "taller ciencias" in texto:
-            respuesta = """
+   ```
+    elif "taller ciencias" in texto:
+        respuesta = """
+   ```
+
 TALLER DE CIENCIAS
 
 1. ¿Qué es la fotosíntesis?
 2. Explica el ciclo del agua.
 3. Nombra los estados de la materia.
-"""
+   """
 
-        elif "horario" in texto:
-            respuesta = """
+   ```
+    elif "horario" in texto:
+        respuesta = """
+   ```
+
 HORARIO RECOMENDADO
 
 08:00 Clase principal
@@ -65,11 +79,14 @@ HORARIO RECOMENDADO
 15:30 Retroalimentación
 """
 
-        elif "actividad" in texto:
-            respuesta = "Actividad recomendada: Debate académico."
+```
+    elif "actividad" in texto:
+        respuesta = "Actividad recomendada: Debate académico."
 
-        elif "ayuda" in texto:
-            respuesta = """
+    elif "ayuda" in texto:
+        respuesta = """
+```
+
 COMANDOS DISPONIBLES
 
 hola
@@ -85,29 +102,40 @@ taller ingles
 taller ciencias
 """
 
-        chat.append(("TU", mensaje))
-        chat.append(("IA", respuesta))
+```
+    chat = session["chat"]
 
-    historial = ""
+    chat.append(("TU", mensaje))
+    chat.append(("IA", respuesta))
 
-    for autor, mensaje in chat:
+    session["chat"] = chat
 
-        clase = "usuario" if autor == "TU" else "ia"
+historial = ""
 
-        historial += f"""
-        <div class="{clase}">
-            <b>{autor}:</b><br>
-            {mensaje}
-        </div>
-        """
+chat = session.get("chat", [])
 
-    return f"""
+for autor, mensaje in chat:
+
+    clase = "usuario" if autor == "TU" else "ia"
+
+    historial += f"""
+    <div class="{clase}">
+        <b>{autor}:</b><br>
+        {mensaje}
+    </div>
+    """
+
+return f"""
+```
+
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PXNAGUA'S IA</title>
 
@@ -141,17 +169,14 @@ h1 {{
         0 0 10px #ce53e9,
         0 0 20px #ce53e9,
         0 0 40px #ce53e9;
-
-    animation: brillo 2s infinite alternate;
-}}}}
+}}
 
 .usuario {{
     background:#8a2be2;
     padding:12px;
     margin:10px;
-    border:3px solid #ffffff;
+    border:3px solid white;
     text-align:right;
-    border-radius:0;
 }}
 
 .ia {{
@@ -159,21 +184,21 @@ h1 {{
     padding:12px;
     margin:10px;
     border:3px solid #ce53e9;
-    border-radius:0;
+}}
+
+form {{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
 }}
 
 input {{
-    width:75%;
+    flex:1;
     padding:12px;
     background:#1c1026;
     color:white;
     border:3px solid #ce53e9;
     font-size:16px;
-    outline:none;
-}}
-
-input:focus {{
-    box-shadow:0 0 15px #ce53e9;
 }}
 
 button {{
@@ -183,46 +208,45 @@ button {{
     border:none;
     font-weight:bold;
     cursor:pointer;
-    transition:0.2s;
-}}
-
-button:hover {{
-    background:#e27cff;
-    transform:scale(1.05);
-    box-shadow:0 0 15px #ce53e9;
-}}
-
-::-webkit-scrollbar {{
-    width:10px;
-}}
-
-::-webkit-scrollbar-thumb {{
-    background:#ce53e9;
-}}
-
-.corazon-izq {{
-    position: fixed;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 500px;
-    z-index: 999;
-}}
-
-.corazon-der {{
-    position: fixed;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 500px;
-    z-index: 999;
 }}
 
 .avatar {{
     text-align:center;
     font-size:100px;
     margin-bottom:10px;
-    filter: drop-shadow(0 0 20px #ce53e9);
+}}
+
+.corazon-izq {{
+    position:fixed;
+    left:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:350px;
+    z-index:-1;
+    pointer-events:none;
+}}
+
+.corazon-der {{
+    position:fixed;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:350px;
+    z-index:-1;
+    pointer-events:none;
+}}
+
+@media (max-width:768px) {{
+
+    .corazon-izq,
+    .corazon-der {{
+        width:150px;
+    }}
+
+    form {{
+        flex-direction:column;
+    }}
+
 }}
 
 </style>
@@ -236,12 +260,9 @@ button:hover {{
 </div>
 
 <h1>PXNAGUA'S IA WEB</h1>
-<div class="decoracion">
 
 <img src="/static/corazones.png" class="corazon-izq">
 <img src="/static/corazones.png" class="corazon-der">
-
-</div>
 
 <div class="chat">
 
@@ -254,7 +275,8 @@ button:hover {{
 <input
 type="text"
 name="mensaje"
-placeholder="Escribe algo...">
+placeholder="Escribe algo..."
+required>
 
 <button type="submit">
 Enviar
@@ -269,6 +291,6 @@ Enviar
 
 import os
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+if **name** == "**main**":
+port = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=port)
